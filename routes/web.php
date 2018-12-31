@@ -18,8 +18,16 @@ Route::get('/about', 'StaticPagesController@about')->name('about');
 Route::get('signup','UsersController@create')->name('signup');
 Route::resource('users', 'UsersController');
 
+//登陆和注册
 Route::get('login','SessionsController@create')->name('login');
 Route::post('login','SessionsController@store')->name('login');
 Route::delete('logout','SessionsController@destroy')->name('logout');
 
+//发送激活邮件路由
 Route::get('signup/confirm/{token}','UsersController@confirmEmail')->name('confirm_email');
+
+//重置密码路由
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
